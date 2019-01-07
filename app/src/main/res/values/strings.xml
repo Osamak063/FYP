@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TheSmartInterviewer</string>
+    <string name="username">USERNAME</string>
+    <string name="password">PASSWORD</string>
+    <string name="name">FULL NAME</string>
+    <string name="logout">Logout</string>
+</resources>
