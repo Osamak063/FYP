@@ -1,5 +1,7 @@
 package com.example.osamakhalid.thesmartinterviewer.calls;
 
+import com.example.osamakhalid.thesmartinterviewer.models.User;
+
 /**
  * Created by Osama Khalid on 1/7/2019.
  */
@@ -7,7 +9,9 @@ package com.example.osamakhalid.thesmartinterviewer.calls;
 public interface LoginRegisterContract {
     interface presenter {
 
-        void onDestroy();
+        void onLoginDestroy();
+
+        void onRegDestroy();
 
         void registerUser(String email, String password, String name);
 
@@ -56,8 +60,8 @@ public interface LoginRegisterContract {
             void onLoginFailure(Throwable t);
         }
 
-        void register(OnRegistrationFinishedListener onRegistrationFinishedListener, String email, String password, String name);
+        void register(OnRegistrationFinishedListener onRegistrationFinishedListener, User user);
 
-        void login(OnLoginFinishedListener onLoginFinishedListener, String email, String password);
+        void login(OnLoginFinishedListener onLoginFinishedListener, User user);
     }
 }

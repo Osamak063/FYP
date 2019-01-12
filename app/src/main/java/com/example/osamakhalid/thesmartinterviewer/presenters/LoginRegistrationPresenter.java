@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.example.osamakhalid.thesmartinterviewer.calls.LoginRegisterContract;
 import com.example.osamakhalid.thesmartinterviewer.calls.LoginRegisterUser;
+import com.example.osamakhalid.thesmartinterviewer.models.User;
 import com.example.osamakhalid.thesmartinterviewer.utils.SaveSharedPreference;
 
 import org.w3c.dom.Text;
@@ -37,76 +38,91 @@ public class LoginRegistrationPresenter implements LoginRegisterContract.present
     }
 
     @Override
-    public void onDestroy() {
+    public void onLoginDestroy() {
+        mainViewLogin = null;
+    }
 
+    @Override
+    public void onRegDestroy() {
+        mainViewRegistration = null;
     }
 
     @Override
     public void registerUser(String email, String password, String name) {
-        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-            mainViewRegistration.emailEmpty();
-            mainViewRegistration.passwordEmpty();
-            mainViewRegistration.nameEmpty();
-        } else if (TextUtils.isEmpty(name) && TextUtils.isEmpty(email)) {
-            mainViewRegistration.nameEmpty();
-            mainViewRegistration.emailEmpty();
-        } else if (TextUtils.isEmpty(name) && TextUtils.isEmpty(password)) {
-            mainViewRegistration.nameEmpty();
-            mainViewRegistration.passwordEmpty();
-        } else if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-            mainViewRegistration.emailEmpty();
-            mainViewRegistration.passwordEmpty();
-        } else if (TextUtils.isEmpty(name)) {
-            mainViewRegistration.nameEmpty();
-        } else if (TextUtils.isEmpty(email)) {
-            mainViewRegistration.emailEmpty();
-        } else if (TextUtils.isEmpty(password)) {
-            mainViewRegistration.passwordEmpty();
-        } else {
-            reg.register(this, email, password, name);
+        if (mainViewRegistration != null) {
+            if (TextUtils.isEmpty(name) && TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+                mainViewRegistration.emailEmpty();
+                mainViewRegistration.passwordEmpty();
+                mainViewRegistration.nameEmpty();
+            } else if (TextUtils.isEmpty(name) && TextUtils.isEmpty(email)) {
+                mainViewRegistration.nameEmpty();
+                mainViewRegistration.emailEmpty();
+            } else if (TextUtils.isEmpty(name) && TextUtils.isEmpty(password)) {
+                mainViewRegistration.nameEmpty();
+                mainViewRegistration.passwordEmpty();
+            } else if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+                mainViewRegistration.emailEmpty();
+                mainViewRegistration.passwordEmpty();
+            } else if (TextUtils.isEmpty(name)) {
+                mainViewRegistration.nameEmpty();
+            } else if (TextUtils.isEmpty(email)) {
+                mainViewRegistration.emailEmpty();
+            } else if (TextUtils.isEmpty(password)) {
+                mainViewRegistration.passwordEmpty();
+            } else {
+                reg.register(this, new User(email, password));
+            }
         }
     }
 
     @Override
     public void loginUser(String email, String password) {
-        if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-            mainViewLogin.emailEmpty();
-            mainViewLogin.passwordEmpty();
-        } else if (TextUtils.isEmpty(email)) {
-            mainViewLogin.emailEmpty();
-        } else if (TextUtils.isEmpty(password)) {
-            mainViewLogin.passwordEmpty();
-        } else {
-            reg.login(this, email, password);
+        if (mainViewLogin != null) {
+            if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+                mainViewLogin.emailEmpty();
+                mainViewLogin.passwordEmpty();
+            } else if (TextUtils.isEmpty(email)) {
+                mainViewLogin.emailEmpty();
+            } else if (TextUtils.isEmpty(password)) {
+                mainViewLogin.passwordEmpty();
+            } else {
+                reg.login(this, new User(email, password));
+            }
         }
     }
 
     @Override
     public void onRegistrationFinished(int success) {
-        if (success == 0) {
-            mainViewRegistration.userAlreadyExists();
-        } else if (success == 1) {
-            mainViewRegistration.successfullyRegistered();
+        if (mainViewRegistration != null) {
+            if (success == 0) {
+                mainViewRegistration.userAlreadyExists();
+            } else if (success == 1) {
+                mainViewRegistration.successfullyRegistered();
+            }
         }
     }
 
     @Override
     public void onRegistrationFailure(Throwable t) {
-        mainViewRegistration.onResponseFailure(t);
+        if (mainViewRegistration != null)
+            mainViewRegistration.onResponseFailure(t);
     }
 
     @Override
     public void onLoginFinished(int success) {
-        if (success == 0) {
-            mainViewLogin.notMatched();
-        } else if (success == 1) {
-            mainViewLogin.successfullyLogin();
-            SaveSharedPreference.setLoggedIn(this.context, true);
+        if (mainViewLogin != null) {
+            if (success == 0) {
+                mainViewLogin.notMatched();
+            } else if (success == 1) {
+                mainViewLogin.successfullyLogin();
+                SaveSharedPreference.setLoggedIn(this.context, true);
+            }
         }
     }
 
     @Override
     public void onLoginFailure(Throwable t) {
-        mainViewLogin.onResponseFailure(t);
+        if (mainViewLogin != null)
+            mainViewLogin.onResponseFailure(t);
     }
 }
