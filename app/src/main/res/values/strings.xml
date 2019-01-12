@@ -4,4 +4,12 @@
     <string name="password">PASSWORD</string>
     <string name="name">FULL NAME</string>
     <string name="logout">Logout</string>
+    <string name="fname">First Name</string>
+    <string name="lname">Last name</string>
+    <string name="address">Address</string>
+    <string name="edu">Education</string>
+    <string name="cv">CV/Resume</string>
+    <string name="upload_pic"><u>Upload photo</u></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
